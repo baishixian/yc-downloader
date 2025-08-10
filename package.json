@@ -44,7 +44,8 @@
   },
   "build": {
     "appId": "com.filedownloader.app",
-    "productName": "文件下载器",
+    "productName": "File Downloader",
+    "artifactName": "${productName}-${version}-${arch}.${ext}",
     "directories": {
       "output": "release"
     },
@@ -53,10 +54,12 @@
       "node_modules/**/*"
     ],
     "mac": {
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.utilities",
+      "artifactName": "${productName}-${version}-${arch}-mac.${ext}"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
     }
   }
-} 
+}
