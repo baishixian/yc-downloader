@@ -1,0 +1,62 @@
+{
+  "name": "file-downloader",
+  "version": "1.0.0",
+  "description": "跨平台文件下载应用程序",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:renderer\" \"npm run dev:main\"",
+    "dev:renderer": "webpack serve --config webpack.config.js --mode development",
+    "dev:main": "tsc -p tsconfig.json && ELECTRON_DISABLE_SECURITY_WARNINGS=true ELECTRON_NO_ATTACH_CONSOLE=true ELECTRON_ENABLE_LOGGING=false electron .",
+    "dev:main:watch": "tsc -p tsconfig.json --watch & electron .",
+    "dev:mac": "tsc -p tsconfig.json && ELECTRON_DISABLE_SECURITY_WARNINGS=true ELECTRON_NO_ATTACH_CONSOLE=true electron .",
+    "build": "npm run build:renderer && npm run build:main",
+    "build:renderer": "webpack --config webpack.config.js --mode production",
+    "build:main": "tsc -p tsconfig.json",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "keywords": ["electron", "download", "curl", "excel"],
+  "author": "AI Assistant",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.15.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "concurrently": "^7.6.0",
+    "css-loader": "^6.7.3",
+    "electron": "^24.0.0",
+    "electron-builder": "^24.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "style-loader": "^3.3.2",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.5",
+    "webpack": "^5.78.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.2"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "electron-store": "^8.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "xlsx": "^0.18.5"
+  },
+  "build": {
+    "appId": "com.filedownloader.app",
+    "productName": "文件下载器",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": "nsis"
+    }
+  }
+} 
