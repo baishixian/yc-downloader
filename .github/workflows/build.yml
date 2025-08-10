@@ -8,42 +8,55 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+# 添加必要的权限配置
+permissions:
+  contents: write
+  actions: read
+  checks: write
+  deployments: write
+  issues: write
+  packages: write
+  pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    
+
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
-        
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
-        
+
     - name: Install dependencies
       run: npm ci
-      
+
     - name: Build application
       run: npm run build
-      
+
     - name: Build distributables (macOS)
       if: matrix.os == 'macos-latest'
       run: npm run dist
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
+
     - name: Build distributables (Windows)
       if: matrix.os == 'windows-latest'
       run: npm run dist
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
+
     - name: Upload artifacts (macOS)
       if: matrix.os == 'macos-latest'
       uses: actions/upload-artifact@v4
@@ -54,7 +67,7 @@ jobs:
           release/*.zip
           release/mac/
         retention-days: 30
-        
+
     - name: Upload artifacts (Windows)
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v4
@@ -70,25 +83,29 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
-    
+
+    # 为 release job 单独设置权限
+    permissions:
+      contents: write
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Download macOS artifacts
       uses: actions/download-artifact@v4
       with:
         name: macos-build
         path: ./release-assets/macos/
-        
+
     - name: Download Windows artifacts
       uses: actions/download-artifact@v4
       with:
         name: windows-build
         path: ./release-assets/windows/
-        
+
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: |
           ./release-assets/macos/*.dmg
@@ -98,5 +115,4 @@ jobs:
         draft: false
         prerelease: false
         generate_release_notes: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
