@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { app, Menu, BrowserWindow, ipcMain, dialog } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -22,8 +22,10 @@ function createWindow(): void {
       preload: path.join(__dirname, 'preload.js'),
     },
     title: '文件下载器',
-    // icon: path.join(__dirname, '../assets/icon.png'), // 暂时注释掉图标
+    icon: path.join(__dirname, '../assets/icon.png'), // 暂时注释掉图标
   });
+
+  Menu.setApplicationMenu(null);
 
   // 加载渲染进程
   if (process.env.NODE_ENV === 'development') {

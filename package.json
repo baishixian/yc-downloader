@@ -1,6 +1,6 @@
 {
   "name": "file-downloader",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "跨平台文件下载应用程序",
   "main": "dist/main.js",
   "scripts": {
@@ -56,11 +56,13 @@
     "compression": "normal",
     "mac": {
       "category": "public.app-category.utilities",
-      "artifactName": "${productName}-${version}-${arch}-mac.${ext}"
+      "artifactName": "${productName}-${version}-${arch}-mac.${ext}",
+      "icon": "assets/icon.icns"
     },
     "win": {
       "target": {
         "target": "nsis",
+        "icon": "assets/icon.ico",
         "arch": ["x64"]
       },
       "artifactName": "${productName}-Setup-${version}.${ext}",
