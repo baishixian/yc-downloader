@@ -1,6 +1,6 @@
 {
   "name": "file-downloader",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "跨平台文件下载应用程序",
   "main": "dist/main.js",
   "scripts": {
