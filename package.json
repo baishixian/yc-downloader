@@ -53,13 +53,25 @@
       "dist/**/*",
       "node_modules/**/*"
     ],
+    "compression": "normal",
     "mac": {
       "category": "public.app-category.utilities",
       "artifactName": "${productName}-${version}-${arch}-mac.${ext}"
     },
     "win": {
-      "target": "nsis",
-      "artifactName": "${productName}-Setup-${version}.${ext}"
+      "target": {
+        "target": "nsis",
+        "arch": ["x64"]
+      },
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "compression": "store"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "File Downloader"
     }
   }
 }
