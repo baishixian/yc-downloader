@@ -57,14 +57,18 @@
     "mac": {
       "category": "public.app-category.utilities",
       "artifactName": "${productName}-${version}-${arch}-mac.${ext}",
-      "icon": "assets/icon.icns"
+      "icon": "assets/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
     },
     "win": {
       "target": {
         "target": "nsis",
-        "icon": "assets/icon.ico",
         "arch": ["x64"]
       },
+      "icon": "assets/icon.ico",
       "artifactName": "${productName}-Setup-${version}.${ext}",
       "compression": "store"
     },
